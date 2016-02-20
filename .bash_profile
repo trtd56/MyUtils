@@ -1,0 +1,5 @@
+alias ll='ls -al --color=auto'
+alias grep='grep --color'
+alias df='df -h'
+alias ps='ps --sort=start_time'
+alias rm='rm -i'
