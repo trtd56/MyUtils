@@ -12,3 +12,5 @@ alias glo='git gr'
 alias gad='git add'
 alias pull='git pull'
 alias push='git push'
+
+test -r ~/.bashrc && . ~/.bashrc
