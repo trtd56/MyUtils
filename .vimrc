@@ -59,3 +59,41 @@ set shiftwidth=4  " 自動インデントでずれる幅
 set softtabstop=4 " 連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
 set autoindent    " 改行時に前の行のインデントを継続する
 set smartindent   " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+
+command T NERDTree
+
+" NERDTreeの設定
+
+if has('vim_starting')
+  set nocompatible               " Be iMproved
+ 
+  " Required:
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+ 
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
+ 
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+ 
+" My Bundles here:
+NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'scrooloose/nerdtree'
+ 
+" You can specify revision/branch/tag.
+NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+ 
+call neobundle#end()
+ 
+" Required:
+filetype plugin indent on
+ 
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
