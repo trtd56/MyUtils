@@ -12,6 +12,10 @@ libbz2-dev \
 sqlite3 \
 tk-dev \
 zip \
+libgfortran3 \
+liblapack-dev \
+python-gtk2-dev \
+libopenblas-dev \
 libssl-dev
 
 sudo apt-get -y install python-setuptools python-pip python-dev
@@ -29,7 +33,7 @@ pip install scipy
 pip install matplotlib
 pip install pandas 
 pip install sympy
-pip install python 
+pip install ipython 
 pip install ipython-notebook
 pip install scikit-learn 
 pip install chainer 
