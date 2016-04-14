@@ -113,4 +113,33 @@ if ! shopt -oq posix; then
   fi
 fi
 
-PS1="\n\[\e[32;1m\](\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\e[37;1m\]! \!\[\e[32;1m\])-> \[\e[0m\]"
+
+
+BLUE="\[\e[1;34m\]"
+RED="\[\e[1;31m\]"
+GREEN="\[\e[1;32m\]"
+WHITE="\[\e[00m\]"
+
+function parse_git_branch {
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+function promps {
+    # 色は気分で変えたいかもしれないので変す宣言しておく
+
+    case $TERM in
+        xterm*) TITLEBAR='\[\e]0;\W\007\]';;
+        *)      TITLEBAR="";;
+    esac
+    local BASE="\u@\h"
+    local DIR="\w"
+    PS1="\
+${BLUE}${BASE}:\
+${GREEN}${DIR}\
+${BLUE}[\
+${RED}\$(parse_git_branch)${RED}\
+${BLUE}]
+${BLUE}-> ${WHITE}"
+}
+promps
+
+#PS1="\n\[\e[32;1m\](\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\e[37;1m\]! \!\[\e[32;1m\])-> \[\e[0m\]"
