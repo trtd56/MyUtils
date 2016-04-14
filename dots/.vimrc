@@ -14,9 +14,9 @@ set laststatus=2   " ステータス行を常に表示
 set cmdheight=2    " メッセージ表示欄を2行確保
 set showmatch      " 対応する括弧を強調表示
 set helpheight=999 " ヘルプを画面いっぱいに開く
-"set list           " 不可視文字を表示
+set list           " 不可視文字を表示
 " 不可視文字の表示記号指定
-"set listchars=tab:▸\ ,eol:↲,extends:❯,precedes:❮
+set listchars=tab:▸_,eol:↲,extends:»,precedes:«,trail:_,nbsp:%
 
 
 
