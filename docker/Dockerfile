@@ -63,4 +63,3 @@ RUN cp MyConfig/dotfiles/.bashrc ~
 RUN cp MyConfig/dotfiles/.vimrc ~
 RUN cp MyConfig/dotfiles/.gitconfig ~
 
-RUN source ~/.bash_profile
