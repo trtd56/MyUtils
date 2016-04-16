@@ -1,7 +1,5 @@
 #!/bin/bash
 
-git config --global user.name "Takamichi Toda"
-git config --global user.email "toda@hogehoge.com"
 git config --global core.editor 'vim -c "set fenc=utf-8"'
 git config --global color.diff auto
 git config --global color.status auto
