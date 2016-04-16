@@ -26,7 +26,7 @@ RUN apt-get install -y ipython
 RUN apt-get install -y ipython-notebook
 RUN pip install chainer
 RUN pip install scikit-learn
-RUN pip install notebook↲
+RUN pip install notebook
 RUN pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs pip install -U
 
 RUN apt-get clean
