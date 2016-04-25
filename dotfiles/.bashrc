@@ -113,7 +113,21 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
+# alias
+alias ll='ls -al --color=auto'
+alias grep='grep --color'
+alias df='df -h'
+alias ps='ps --sort=start_time'
+alias rm='rm -i'
+alias gcm='git cm'
+alias gco='git co'
+alias gst='git st'
+alias gdf='git df'
+alias gbr='git br'
+alias glo='git gr'
+alias gad='git add'
+alias pull='git pull'
+alias push='git push'
 
 BLUE="\[\e[1;34m\]"
 RED="\[\e[1;31m\]"
@@ -123,7 +137,9 @@ WHITE="\[\e[00m\]"
 function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
+
 function promps {
+
     case $TERM in
         xterm*) TITLEBAR='\[\e]0;\W\007\]';;
         *)      TITLEBAR="";;
@@ -138,4 +154,5 @@ ${RED}\$(parse_git_branch)${RED}\
 ${BLUE}]
 ${BLUE}-> ${WHITE}"
 }
+
 promps

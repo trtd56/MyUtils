@@ -1,16 +1,1 @@
-alias ll='ls -al --color=auto'
-alias grep='grep --color'
-alias df='df -h'
-alias ps='ps --sort=start_time'
-alias rm='rm -i'
-alias gcm='git cm'
-alias gco='git co'
-alias gst='git st'
-alias gdf='git df'
-alias gbr='git br'
-alias glo='git gr'
-alias gad='git add'
-alias pull='git pull'
-alias push='git push'
-
 test -r ~/.bashrc && . ~/.bashrc
