@@ -128,6 +128,7 @@ alias glo='git gr'
 alias gad='git add'
 alias pull='git pull'
 alias push='git push'
+alias lf='find `pwd`'
 
 BLUE="\[\e[1;34m\]"
 RED="\[\e[1;31m\]"
