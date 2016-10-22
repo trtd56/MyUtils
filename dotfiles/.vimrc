@@ -16,7 +16,7 @@ set showmatch      " 対応する括弧を強調表示
 set helpheight=999 " ヘルプを画面いっぱいに開く
 set list           " 不可視文字を表示
 " 不可視文字の表示記号指定
-set listchars=tab:▸_,eol:↲,extends:»,precedes:«,trail:_,nbsp:%
+set listchars=tab:»_,trail:_,extends:»,precedes:«,nbsp:%
 
 
 
@@ -50,7 +50,6 @@ set wrapscan   " 最後尾まで検索を終えたら次の検索で先頭に移
 set gdefault   " 置換の時 g オプションをデフォルトで有効にする
 
 
-
 " タブ/インデントの設定
 
 set expandtab     " タブ入力を複数の空白入力に置き換える
@@ -60,17 +59,19 @@ set softtabstop=4 " 連続した空白に対してタブキーやバックスペ
 set autoindent    " 改行時に前の行のインデントを継続する
 set smartindent   " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 
+"autocmd FileType python setlocal tabstop=4
+
 command T NERDTree
-
+"
 " NERDTreeの設定
-
+"
 if has('vim_starting')
   set nocompatible               " Be iMproved
  
   " Required:
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
- 
+
 " Required:
 call neobundle#begin(expand('~/.vim/bundle/'))
  
@@ -85,6 +86,19 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'scrooloose/nerdtree'
+" ファイルオープンを便利に
+NeoBundle 'Shougo/unite.vim'
+" Unite.vimで最近使ったファイルを表示できるようにする
+NeoBundle 'Shougo/neomru.vim'
+
+"Gitを便利に使う
+NeoBundle 'tpope/vim-fugitive'
+
+" grep検索の実行後にQuickFix Listを表示する
+autocmd QuickFixCmdPost *grep* cwindow
+
+" ステータス行に現在のgitブランチを表示する
+set statusline+=%{fugitive#statusline()}
  
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
