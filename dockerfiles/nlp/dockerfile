@@ -1,0 +1,77 @@
+FROM centos:7
+
+
+RUN yum update -y && yum clean all
+RUN yum install -y epel-release
+RUN yum install -y wget gcc gcc-c++ python-pip boost-devel make git
+
+#RUN localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
+#ENV LANG=ja_JP.UTF-8
+#ENV LANGUAGE=ja_JP:ja
+#ENV LC_CTYPE=ja_JP.UTF-8
+
+### python ###
+RUN pip install --upgrade pip
+RUN easy_install -U setuptools
+RUN pip install six numpy scipy matplotlib pandas
+RUN pip install gensim chainer scikit-learn
+
+
+### C++ Boost ###
+RUN wget https://sourceforge.net/projects/boost/files/boost/1.62.0/boost_1_62_0.tar.gz
+RUN tar xvzf boost_1_62_0.tar.gz
+RUN cd boost_1_62_0 && sh bootstrap.sh && ./b2 install -j2
+
+RUN rm boost_1_62_0 boost_1_62_0.tar.gz
+
+
+### JUMAN++ ###
+RUN wget http://lotus.kuee.kyoto-u.ac.jp/nl-resource/jumanpp/jumanpp-1.01.tar.xz
+RUN tar xJvf jumanpp-1.01.tar.xz
+RUN cd jumanpp-1.01 && ./configure && make && make install
+
+RUN rm -rf jumanpp-1.01 jumanpp-1.01.tar.xz
+
+
+### JUMAN ###
+RUN wget http://nlp.ist.i.kyoto-u.ac.jp/nl-resource/juman/juman-7.01.tar.bz2
+RUN tar jxvf juman-7.01.tar.bz2
+RUN cd juman-7.01 && ./configure && make && make install
+
+RUN echo "include /usr/local/lib" >> /etc/ld.so.conf
+
+RUN rm -rf juman-7.01 jxvf juman-7.01.tar.bz2
+
+
+### KNP ###
+RUN wget http://nlp.ist.i.kyoto-u.ac.jp/nl-resource/knp/knp-4.16.tar.bz2
+RUN tar jxvf knp-4.16.tar.bz2
+RUN cd knp-4.16 && ./configure && make && make install
+
+RUN rm -rf knp-4.16.tar.bz2 knp-4.16
+
+
+### PyKNP ###
+RUN wget http://nlp.ist.i.kyoto-u.ac.jp/nl-resource/knp/pyknp-0.3.tar.gz
+RUN tar xvf pyknp-0.3.tar.gz
+RUN cd pyknp-0.3 && python setup.py install
+
+RUN rm -rf pyknp-0.3.tar.gz pyknp-0.3
+
+
+### mecab ###
+RUN wget -O mecab-0.996.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7cENtOXlicTFaRUE"
+RUN tar zxvf mecab-0.996.tar.gz
+RUN cd mecab-0.996 && ./configure && make && make install
+
+RUN wget -O mecab-ipadic-2.7.0-20070801.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM"
+RUN tar zxvf mecab-ipadic-2.7.0-20070801.tar.gz
+RUN cd mecab-ipadic-2.7.0-20070801 && ./configure --with-charset=utf8 && make && make install
+
+RUN rm -rf mecab-0.996.tar.gz mecab-0.996 mecab-ipadic-2.7.0-20070801.tar.gz mecab-ipadic-2.7.0-20070801
+
+
+### fastText ###
+RUN git clone https://github.com/facebookresearch/fastText.git
+RUN cd fastText && make
+RUN ln -s /fastText/fasttext /usr/local/bin/fasttext
