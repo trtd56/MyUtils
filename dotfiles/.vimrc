@@ -1,27 +1,27 @@
 syntax on
-set nohlsearch
 
-set nocompatible
 
+" 文字コードの設定
+set encoding=utf-8
+scriptencoding utf-8
+set fileencoding=utf-8                          " 保存時の文字コード
+set fileencodings=ucs-boms,utf-8,euc-jp,cp932   " 読み込み時の文字コードの自動判別. 左側が優先される
+set fileformats=unix,dos,mac                    " 改行コードの自動判別. 左側が優先される
+set ambiwidth=double                            " □や○文字が崩れる問題解決
 
 
 " 画面表示の設定
-
-set number         " 行番号を表示する
-set cursorline     " カーソル行の背景色を変える
-"set cursorcolumn   " カーソル位置のカラムの背景色を変える
-set laststatus=2   " ステータス行を常に表示
-set cmdheight=2    " メッセージ表示欄を2行確保
-set showmatch      " 対応する括弧を強調表示
-set helpheight=999 " ヘルプを画面いっぱいに開く
-set list           " 不可視文字を表示
-" 不可視文字の表示記号指定
-set listchars=tab:»_,trail:_,extends:»,precedes:«,nbsp:%
-
+set number                                               " 行番号を表示する
+set cursorline                                           " カーソル行の背景色を変える
+set laststatus=2                                         " ステータス行を常に表示
+set cmdheight=2                                          " メッセージ表示欄を2行確保
+set showmatch                                            " 対応する括弧を強調表示
+set helpheight=999                                       " ヘルプを画面いっぱいに開く
+set list                                                 " 不可視文字を表示
+set listchars=tab:»_,trail:_,extends:»,precedes:«,nbsp:% " 不可視文字の表示記号指定
 
 
 " カーソル移動関連の設定
-
 set backspace=indent,eol,start " Backspaceキーの影響範囲に制限を設けない
 set whichwrap=b,s,h,l,<,>,[,]  " 行頭行末の左右移動で行をまたぐ
 set scrolloff=8                " 上下8行の視界を確保
@@ -29,19 +29,17 @@ set sidescrolloff=16           " 左右スクロール時の視界を確保
 set sidescroll=1               " 左右スクロールは一文字づつ行う
 
 
-
 " ファイル処理関連の設定
-
-set confirm    " 保存されていないファイルがあるときは終了前に保存確認
-set hidden     " 保存されていないファイルがあるときでも別のファイルを開くことが出来る
-set autoread   "外部でファイルに変更がされた場合は読みなおす
-set nobackup   " ファイル保存時にバックアップファイルを作らない
-set noswapfile " ファイル編集中にスワップファイルを作らない
-
+set confirm         " 保存されていないファイルがあるときは終了前に保存確認
+set hidden          " 保存されていないファイルがあるときでも別のファイルを開くことが出来る
+set autoread        " 外部でファイルに変更がされた場合は読みなおす
+set nobackup        " ファイル保存時にバックアップファイルを作らない
+set noswapfile      " ファイル編集中にスワップファイルを作らない
+set wildmenu        " コマンドモードの補完
+set history=5000    " 保存するコマンド履歴の数
 
 
 " 検索/置換の設定
-
 set hlsearch   " 検索文字列をハイライトする
 set incsearch  " インクリメンタルサーチを行う
 set ignorecase " 大文字と小文字を区別しない
@@ -51,7 +49,6 @@ set gdefault   " 置換の時 g オプションをデフォルトで有効にす
 
 
 " タブ/インデントの設定
-
 set expandtab     " タブ入力を複数の空白入力に置き換える
 set tabstop=4     " 画面上でタブ文字が占める幅
 set shiftwidth=4  " 自動インデントでずれる幅
@@ -59,7 +56,43 @@ set softtabstop=4 " 連続した空白に対してタブキーやバックスペ
 set autoindent    " 改行時に前の行のインデントを継続する
 set smartindent   " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 
-"autocmd FileType python setlocal tabstop=4
+
+" 行が折り返し表示されていた場合、行単位ではなく表示行単位でカーソルを移動する
+nnoremap j gj
+nnoremap k gk
+nnoremap <down> gj
+nnoremap <up> gk
+
+" ESCキー2度押しでハイライトの切り替え
+nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
+
+" マウス
+if has('mouse')
+    set mouse=a
+    if has('mouse_sgr')
+        set ttymouse=sgr
+    elseif v:version > 703 || v:version is 703 && has('patch632')
+        set ttymouse=sgr
+    else
+        set ttymouse=xterm2
+    endif
+endif
+
+" ペースト
+if &term =~ "xterm"
+    let &t_SI .= "\e[?2004h"
+    let &t_EI .= "\e[?2004l"
+    let &pastetoggle = "\e[201~"
+
+    function XTermPasteBegin(ret)
+        set paste
+        return a:ret
+    endfunction
+
+    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+endif
+
+
 
 command T NERDTree
 "
@@ -74,11 +107,11 @@ endif
 
 " Required:
 call neobundle#begin(expand('~/.vim/bundle/'))
- 
+
 " Let NeoBundle manage NeoBundle
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
- 
+
 " My Bundles here:
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
@@ -86,28 +119,27 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'scrooloose/nerdtree'
-" ファイルオープンを便利に
-NeoBundle 'Shougo/unite.vim'
-" Unite.vimで最近使ったファイルを表示できるようにする
-NeoBundle 'Shougo/neomru.vim'
-
-"Gitを便利に使う
-NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'Yggdroot/indentLine' " インデントの可視化
+NeoBundle 'Shougo/unite.vim' " ファイルオープンを便利に
+NeoBundle 'Shougo/neomru.vim' " Unite.vimで最近使ったファイルを表示できるようにする
+NeoBundle 'tpope/vim-fugitive' "Gitを便利に使う
 
 " grep検索の実行後にQuickFix Listを表示する
 autocmd QuickFixCmdPost *grep* cwindow
 
+autocmd FileType python setlocal tabstop=4
+
 " ステータス行に現在のgitブランチを表示する
 set statusline+=%{fugitive#statusline()}
- 
+
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
- 
+
 call neobundle#end()
- 
+
 " Required:
 filetype plugin indent on
- 
+
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
 NeoBundleCheck
