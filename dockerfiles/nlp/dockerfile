@@ -49,6 +49,7 @@ RUN source venv/py34_nlp/bin/activate && pip install six numpy scipy matplotlib 
 RUN source venv/py34_nlp/bin/activate && pip install gensim chainer scikit-learn mecab-python3
 RUN echo "/usr/local/lib" >> /etc/ld.so.conf
 RUN ldconfig
+RUN echo "source /root/venv/py34_nlp/bin/activate" >> "/root/.bashrc"
 
 ### PyKNP ###
 RUN wget http://nlp.ist.i.kyoto-u.ac.jp/nl-resource/knp/pyknp-0.3.tar.gz
@@ -60,4 +61,4 @@ RUN rm -rf pyknp-0.3.tar.gz pyknp-0.3
 ### fastText ###
 RUN git clone https://github.com/facebookresearch/fastText.git
 RUN cd fastText && make
-RUN ln -s /fastText/fasttext /usr/local/bin/fasttext
+RUN ln -s /root/fastText/fasttext /usr/local/bin/fasttext
