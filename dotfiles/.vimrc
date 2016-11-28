@@ -66,7 +66,9 @@ nnoremap <up> gk
 " ESCキー2度押しでハイライトの切り替え
 nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 
+""" flake8の設定
 let g:syntastic_python_checkers = ["flake8"]
+let g:syntastic_python_flake8_args = '--ignore="D100,F403,D103,H303"'
 
 command T NERDTree
 "
