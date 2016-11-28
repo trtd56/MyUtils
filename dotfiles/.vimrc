@@ -66,6 +66,7 @@ nnoremap <up> gk
 " ESCキー2度押しでハイライトの切り替え
 nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 
+let g:syntastic_python_checkers = ["flake8"]
 
 command T NERDTree
 "
@@ -96,6 +97,7 @@ NeoBundle 'Yggdroot/indentLine' " インデントの可視化
 NeoBundle 'Shougo/unite.vim' " ファイルオープンを便利に
 NeoBundle 'Shougo/neomru.vim' " Unite.vimで最近使ったファイルを表示できるようにする
 NeoBundle 'tpope/vim-fugitive' "Gitを便利に使う
+NeoBundle "scrooloose/syntastic"
 
 " grep検索の実行後にQuickFix Listを表示する
 autocmd QuickFixCmdPost *grep* cwindow
