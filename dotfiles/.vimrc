@@ -18,7 +18,7 @@ set cmdheight=2                                          " メッセージ表示
 set showmatch                                            " 対応する括弧を強調表示
 set helpheight=999                                       " ヘルプを画面いっぱいに開く
 set list                                                 " 不可視文字を表示
-set listchars=tab:»_,trail:_,extends:»,precedes:«,nbsp:% " 不可視文字の表示記号指定
+set listchars=tab:>\ ,trail:~,extends:<			 " 不可視文字の表示記号指定
 
 
 " カーソル移動関連の設定
@@ -66,57 +66,36 @@ nnoremap <up> gk
 " ESCキー2度押しでハイライトの切り替え
 nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 
-""" flake8の設定
-let g:syntastic_python_checkers = ["flake8"]
-let g:syntastic_python_flake8_args = '--ignore="D100,F403,D103,H303"'
 
-command T NERDTree
-"
-" NERDTreeの設定
-"
+" ###########################
+" ##### NeoBundleの設定 #####
+" ###########################
+
 if has('vim_starting')
-  set nocompatible               " Be iMproved
- 
-  " Required:
+  set nocompatible
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-" Required:
 call neobundle#begin(expand('~/.vim/bundle/'))
 
-" Let NeoBundle manage NeoBundle
-" Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" My Bundles here:
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Yggdroot/indentLine' " インデントの可視化
-NeoBundle 'Shougo/unite.vim' " ファイルオープンを便利に
-NeoBundle 'Shougo/neomru.vim' " Unite.vimで最近使ったファイルを表示できるようにする
-NeoBundle 'tpope/vim-fugitive' "Gitを便利に使う
-NeoBundle "scrooloose/syntastic"
+" プラグイン
+NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+NeoBundle 'Shougo/unite.vim'                        " カレントディレクトリのファイルを表示できる
+NeoBundle 'Shougo/neomru.vim'                       " uniteと連動して最近使用したファイルを表示できる
+NeoBundle 'Shougo/vimfiler'                         " ディレクトリをツリー形式で表示できる
+NeoBundle 'tpope/vim-fugitive'                      " Gitを便利に使う
+NeoBundle 'scrooloose/nerdtree'                     " ディレクトリのツリー構造表示
 
-" grep検索の実行後にQuickFix Listを表示する
-autocmd QuickFixCmdPost *grep* cwindow
+filetype plugin indent on
 
-autocmd FileType python setlocal tabstop=4
+call neobundle#end()
+NeoBundleCheck
+
 
 " ステータス行に現在のgitブランチを表示する
 set statusline+=%{fugitive#statusline()}
 
-" You can specify revision/branch/tag.
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
-
-call neobundle#end()
-
-" Required:
-filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
+" ディレクトリのツリー構造表示のショートカット
+command T NERDTree
