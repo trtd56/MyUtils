@@ -66,10 +66,12 @@ nnoremap <up> gk
 " ESCキー2度押しでハイライトの切り替え
 nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 
+" マウスの設定
+set mouse=a
+set ttymouse=xterm2
+set clipboard=unnamedplus
 
-" ###########################
 " ##### NeoBundleの設定 #####
-" ###########################
 
 if has('vim_starting')
   set nocompatible
@@ -80,22 +82,31 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" プラグイン
+" レポジトリ
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
 NeoBundle 'Shougo/unite.vim'                        " カレントディレクトリのファイルを表示できる
 NeoBundle 'Shougo/neomru.vim'                       " uniteと連動して最近使用したファイルを表示できる
-NeoBundle 'Shougo/vimfiler'                         " ディレクトリをツリー形式で表示できる
 NeoBundle 'tpope/vim-fugitive'                      " Gitを便利に使う
-NeoBundle 'scrooloose/nerdtree'                     " ディレクトリのツリー構造表示
 
 filetype plugin indent on
 
 call neobundle#end()
 NeoBundleCheck
 
-
 " ステータス行に現在のgitブランチを表示する
 set statusline+=%{fugitive#statusline()}
 
-" ディレクトリのツリー構造表示のショートカット
-command T NERDTree
+
+"prefix keyの設定
+nmap <Space> [unite]
+
+"スペースキーとaキーでカレントディレクトリを表示
+nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+"スペースキーとfキーでバッファと最近開いたファイル一覧を表示
+nnoremap <silent> [unite]f :<C-u>Unite<Space>buffer file_mru<CR>
+"スペースキーとdキーで最近開いたディレクトリを表示
+nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
+"スペースキーとbキーでバッファを表示
+nnoremap <silent> [unite]b :<C-u>Unite<Space>buffer<CR>
+"スペースキーとrキーでレジストリを表示
+nnoremap <silent> [unite]r :<C-u>Unite<Space>register<CR>
