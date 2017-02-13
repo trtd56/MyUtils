@@ -1,4 +1,4 @@
-syntax on
+synta on
 
 
 " 文字コードの設定
@@ -87,6 +87,8 @@ NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
 NeoBundle 'Shougo/unite.vim'                        " カレントディレクトリのファイルを表示できる
 NeoBundle 'Shougo/neomru.vim'                       " uniteと連動して最近使用したファイルを表示できる
 NeoBundle 'tpope/vim-fugitive'                      " Gitを便利に使う
+NeoBundle 'scrooloose/nerdtree'                     " ディレクトリのツリー構造表示
+
 
 filetype plugin indent on
 
@@ -96,14 +98,16 @@ NeoBundleCheck
 " ステータス行に現在のgitブランチを表示する
 set statusline+=%{fugitive#statusline()}
 
+" ディレクトリのツリー構造表示のショートカット
+command T NERDTree
 
 "prefix keyの設定
 nmap <Space> [unite]
 
 "スペースキーとaキーでカレントディレクトリを表示
 nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-"スペースキーとfキーでバッファと最近開いたファイル一覧を表示
-nnoremap <silent> [unite]f :<C-u>Unite<Space>buffer file_mru<CR>
+"スペースキーとfキーで最近開いたファイル一覧を表示
+nnoremap <silent> [unite]f :<C-u>Unite<Space>file_mru<CR>
 "スペースキーとdキーで最近開いたディレクトリを表示
 nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
 "スペースキーとbキーでバッファを表示
