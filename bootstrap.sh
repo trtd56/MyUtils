@@ -32,4 +32,5 @@ echo "pyenv install 3.6.5" >> ~/.bash_profile
 source ~/.bash_profile
 
 # pip install
+pip install jedi
 pip install chainer ipython xonsh kaggle jupyter

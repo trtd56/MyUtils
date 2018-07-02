@@ -19,6 +19,7 @@ set showmatch                                            " 対応する括弧を
 set helpheight=999                                       " ヘルプを画面いっぱいに開く
 set list                                                 " 不可視文字を表示
 set listchars=tab:>\ ,trail:~,extends:<			 " 不可視文字の表示記号指定
+set background=dark
 
 
 " カーソル移動関連の設定
@@ -66,51 +67,100 @@ nnoremap <up> gk
 " ESCキー2度押しでハイライトの切り替え
 nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 
-" マウスの設定
-set mouse=a
-set ttymouse=xterm2
-set clipboard=unnamedplus
-
-" ##### NeoBundleの設定 #####
-
-if has('vim_starting')
-  set nocompatible
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
-
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" レポジトリ
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
-NeoBundle 'Shougo/unite.vim'                        " カレントディレクトリのファイルを表示できる
-NeoBundle 'Shougo/neomru.vim'                       " uniteと連動して最近使用したファイルを表示できる
-NeoBundle 'tpope/vim-fugitive'                      " Gitを便利に使う
-NeoBundle 'scrooloose/nerdtree'                     " ディレクトリのツリー構造表示
+"" マウスの設定
+"set mouse=a
+"set ttymouse=xterm2
+"set clipboard=unnamedplus
 
 
-filetype plugin indent on
-
-call neobundle#end()
-NeoBundleCheck
-
-" ステータス行に現在のgitブランチを表示する
-set statusline+=%{fugitive#statusline()}
-
-" ディレクトリのツリー構造表示のショートカット
-command T NERDTree
-
-"prefix keyの設定
-nmap <Space> [unite]
-
-"スペースキーとaキーでカレントディレクトリを表示
-nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-"スペースキーとfキーで最近開いたファイル一覧を表示
-nnoremap <silent> [unite]f :<C-u>Unite<Space>file_mru<CR>
-"スペースキーとdキーで最近開いたディレクトリを表示
-nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
-"スペースキーとbキーでバッファを表示
-nnoremap <silent> [unite]b :<C-u>Unite<Space>buffer<CR>
-"スペースキーとrキーでレジストリを表示
-nnoremap <silent> [unite]r :<C-u>Unite<Space>register<CR>
+"" ###########################
+"" ##### NeoBundleの設定 #####
+"" ###########################
+"
+"
+"" 基本設定
+"if has('vim_starting')
+"  set nocompatible
+"  set runtimepath+=~/.vim/bundle/neobundle.vim/
+"endif
+"
+"call neobundle#begin(expand('~/.vim/bundle/'))
+"
+"NeoBundleFetch 'Shougo/neobundle.vim'
+"
+"" レポジトリ
+"NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+"NeoBundle 'Shougo/unite.vim'                        " カレントディレクトリのファイルを表示できる
+"NeoBundle 'Shougo/neomru.vim'                       " uniteと連動して最近使用したファイルを表示できる
+"NeoBundle 'tpope/vim-fugitive'                      " Gitを便利に使う
+"NeoBundle 'scrooloose/nerdtree'                     " ディレクトリのツリー構造表示
+"NeoBundle 'davidhalter/jedi-vim'                    " Pythonコード補完
+"NeoBundle 'ervandew/supertab'                       " tabキーで補完する
+"NeoBundle 'scrooloose/syntastic'                    " 静的解析
+"NeoBundle 'tell-k/vim-autopep8'                     " 自動整形
+"
+"filetype plugin indent on
+"
+"call neobundle#end()
+"NeoBundleCheck
+"
+"
+"" 静的解析の設定 (original: http://stackoverflow.com/questions/12374200/using-uncrustify-with-vim/15513829#15513829)
+"function! Preserve(command)
+"    " Save the last search.
+"    let search = @/
+"    " Save the current cursor position.
+"    let cursor_position = getpos('.')
+"    " Save the current window position.
+"    normal! H
+"    let window_position = getpos('.')
+"    call setpos('.', cursor_position)
+"    " Execute the command.
+"    execute a:command
+"    " Restore the last search.
+"    let @/ = search
+"    " Restore the previous window position.
+"    call setpos('.', window_position)
+"    normal! zt
+"    " Restore the previous cursor position.
+"    call setpos('.', cursor_position)
+"endfunction
+"
+"function! Autopep8()
+"    call Preserve(':silent %!autopep8 -')
+"endfunction
+"
+"" Shift + F で自動修正
+"autocmd FileType python nnoremap <S-f> :call Autopep8()<CR>
+"
+"
+""prefix keyの設定
+"nmap <Space> [unite]
+""スペースキーとaキーでカレントディレクトリを表示
+"nnoremap <silent> [unite]a :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+""スペースキーとfキーで最近開いたファイル一覧を表示
+"nnoremap <silent> [unite]f :<C-u>Unite<Space>file_mru<CR>
+""スペースキーとdキーで最近開いたディレクトリを表示
+"nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
+""スペースキーとbキーでバッファを表示
+"nnoremap <silent> [unite]b :<C-u>Unite<Space>buffer<CR>
+""スペースキーとrキーでレジストリを表示
+"nnoremap <silent> [unite]r :<C-u>Unite<Space>register<CR>
+"
+"
+"" 静的解析の設定
+"let g:syntastic_python_checkers = ['flake8']
+"
+"" pythonコード補完の設定
+"let g:SuperTabContextDefaultCompletionType = "context"
+"let g:SuperTabDefaultCompletionType = "<c-n>"
+"autocmd FileType python setlocal completeopt-=preview
+"
+"" ステータス行に現在のgitブランチを表示する
+"set statusline+=%{fugitive#statusline()}
+"
+"" ステータス行に現在のgitブランチを表示する
+"set statusline+=%{fugitive#statusline()}
+"
+"" ディレクトリのツリー構造表示のショートカット
+"command T NERDTree
