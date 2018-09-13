@@ -94,10 +94,7 @@ nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 "NeoBundle 'Shougo/neomru.vim'                       " uniteと連動して最近使用したファイルを表示できる
 "NeoBundle 'tpope/vim-fugitive'                      " Gitを便利に使う
 "NeoBundle 'scrooloose/nerdtree'                     " ディレクトリのツリー構造表示
-"NeoBundle 'davidhalter/jedi-vim'                    " Pythonコード補完
-"NeoBundle 'ervandew/supertab'                       " tabキーで補完する
 "NeoBundle 'scrooloose/syntastic'                    " 静的解析
-"NeoBundle 'tell-k/vim-autopep8'                     " 自動整形
 "
 "filetype plugin indent on
 "
@@ -126,14 +123,6 @@ nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 "    call setpos('.', cursor_position)
 "endfunction
 "
-"function! Autopep8()
-"    call Preserve(':silent %!autopep8 -')
-"endfunction
-"
-"" Shift + F で自動修正
-"autocmd FileType python nnoremap <S-f> :call Autopep8()<CR>
-"
-"
 ""prefix keyの設定
 "nmap <Space> [unite]
 ""スペースキーとaキーでカレントディレクトリを表示
@@ -150,11 +139,6 @@ nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 "
 "" 静的解析の設定
 "let g:syntastic_python_checkers = ['flake8']
-"
-"" pythonコード補完の設定
-"let g:SuperTabContextDefaultCompletionType = "context"
-"let g:SuperTabDefaultCompletionType = "<c-n>"
-"autocmd FileType python setlocal completeopt-=preview
 "
 "" ステータス行に現在のgitブランチを表示する
 "set statusline+=%{fugitive#statusline()}
