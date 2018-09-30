@@ -19,7 +19,8 @@ anaconda_version=`pyenv install --list | grep anaconda | tail -n1`
 pyenv install $anaconda_version  # 2018.09.14: anaconda3-5.2.0 
 pyenv global $anaconda_version
 pyenv rehash
-conda install -y chainer tensorflow jupyter seaborn tqdm gensim flake8 # fastText, xgboost
+conda install -y chainer tensorflow jupyter seaborn tqdm gensim flake8 keras # fastText, xgboost
+conda update --all -y
 
 # git setting
 git config --global core.editor 'vim -c "set fenc=utf-8"'
@@ -34,6 +35,34 @@ curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.s
 sh ./install.sh
 rm -rf install.sh
 
+# tmux setting
+echo "bind c new-window -c '#{pane_current_path}'" >> ~/.tmux.conf
+echo "bind '\"' split-window -c '#{pane_current_path}'" >> ~/.tmux.conf
+echo "bind % split-window -h -c '#{pane_current_path}'" >> ~/.tmux.conf
+tmux source ~/.tmux.conf
+
+# mecab
+mkdir ~/.mecab && cd ~/.mecab
+wget -O mecab-0.996.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7cENtOXlicTFaRUE"
+tar xvzf mecab-0.996.tar.gz
+cd mecab-0.996 && ./configure --prefix=/opt/akp/mecab --enable-utf8-only && make
+echo 'export PATH=/opt/akp/mecab/bin:$PATH' | sudo tee -a /etc/profile
+echo 'export LD_LIBRARY_PATH=/opt/akp/mecab/lib:$LD_LIBRARY_PATH' | sudo tee -a /etc/profile
+source /etc/profile
+sudo make install && cd ~/.mecab
+sudo ldconfig
+
+# ipadic
+wget -O mecab-ipadic-2.7.0-20070801.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM"
+tar xvzf mecab-ipadic-2.7.0-20070801.tar.gz
+cd ./mecab-ipadic-2.7.0-20070801 && ./configure --with-charset=utf8 --with-dicdir=/opt/akp/mecab/lib/mecab/dic/ipadic && make
+sudo make install && cd ~/.mecab
+echo '/opt/akp/mecab/lib' | sudo tee -a /etc/ld.so.conf
+sudo ldconfig
+cd ~/.mecab && rm -f mecab-0.996.tar.gz mecab-ipadic-2.7.0-20070801.tar.gz
+
+# for NLP tool for python
+pip install mecab-python3 mojimoji tensorflow_hub
 
 # update dotfiles
 cat add_bashrc.txt >> ~/.bashrc
