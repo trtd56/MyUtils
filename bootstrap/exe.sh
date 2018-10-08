@@ -64,6 +64,9 @@ cd ~/.mecab && rm -f mecab-0.996.tar.gz mecab-ipadic-2.7.0-20070801.tar.gz
 # for NLP tool for python
 pip install mecab-python3 mojimoji tensorflow_hub
 
+# my python utils
+cp -r python/ ~
+
 # update dotfiles
 cat add_bashrc.txt >> ~/.bashrc
 cp .gitconfig ~
