@@ -4,7 +4,8 @@ sudo apt upgrade -y
 sudo apt install -y tmux git vim jq \
                     make build-essential libssl-dev zlib1g-dev libbz2-dev \
                     libreadline-dev libsqlite3-dev wget curl llvm \
-                    libncurses5-dev libncursesw5-dev xz-utils
+                    libncurses5-dev libncursesw5-dev xz-utils \
+                    python-opengl xvfb
 sudo apt autoremove -y
 
 # pyenv
@@ -62,7 +63,7 @@ sudo ldconfig
 cd ~/.mecab && rm -f mecab-0.996.tar.gz mecab-ipadic-2.7.0-20070801.tar.gz
 
 # for NLP tool for python
-pip install mecab-python3 mojimoji tensorflow_hub
+pip install mecab-python3 mojimoji tensorflow_hub keras_rl JSAnimation gym
 
 # my python utils
 cp -r python/ ~
