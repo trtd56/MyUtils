@@ -5,8 +5,8 @@ DIR = './result/'
 
 def main():
     logger = get_logger(DIR)
-    logger.info('start')
-    logger.info('end')
+    logger.info('--- start ---')
+    logger.info('--- end ---')
 
 
 if __name__ == '__main__':
