@@ -1,11 +1,14 @@
 from my_utils import get_logger
+# import my_debug
 
-DIR = './result/'
+DIR = './tmp_result/'
 
 
 def main():
     logger = get_logger(DIR)
+
     logger.info('--- start ---')
+
     logger.info('--- end ---')
 
 
