@@ -46,9 +46,9 @@ tmux source ~/.tmux.conf
 mkdir ~/.mecab && cd ~/.mecab
 wget -O mecab-0.996.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7cENtOXlicTFaRUE"
 tar xvzf mecab-0.996.tar.gz
-cd mecab-0.996 && ./configure --prefix=/opt/akp/mecab --enable-utf8-only && make
-echo 'export PATH=/opt/akp/mecab/bin:$PATH' | sudo tee -a /etc/profile
-echo 'export LD_LIBRARY_PATH=/opt/akp/mecab/lib:$LD_LIBRARY_PATH' | sudo tee -a /etc/profile
+cd mecab-0.996 && ./configure --prefix=/opt/mecab --enable-utf8-only && make
+echo 'export PATH=/opt/mecab/bin:$PATH' | sudo tee -a /etc/profile
+echo 'export LD_LIBRARY_PATH=/opt/mecab/lib:$LD_LIBRARY_PATH' | sudo tee -a /etc/profile
 source /etc/profile
 sudo make install && cd ~/.mecab
 sudo ldconfig
@@ -56,9 +56,9 @@ sudo ldconfig
 # ipadic
 wget -O mecab-ipadic-2.7.0-20070801.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM"
 tar xvzf mecab-ipadic-2.7.0-20070801.tar.gz
-cd ./mecab-ipadic-2.7.0-20070801 && ./configure --with-charset=utf8 --with-dicdir=/opt/akp/mecab/lib/mecab/dic/ipadic && make
+cd ./mecab-ipadic-2.7.0-20070801 && ./configure --with-charset=utf8 --with-dicdir=/opt/mecab/lib/mecab/dic/ipadic && make
 sudo make install && cd ~/.mecab
-echo '/opt/akp/mecab/lib' | sudo tee -a /etc/ld.so.conf
+echo '/opt/mecab/lib' | sudo tee -a /etc/ld.so.conf
 sudo ldconfig
 cd ~/.mecab && rm -f mecab-0.996.tar.gz mecab-ipadic-2.7.0-20070801.tar.gz
 
