@@ -18,6 +18,8 @@ alias gad='git add'
 alias pull='git pull'
 alias push='git push'
 alias lf='find `pwd`| grep'$1
+alias note='jupyter notebook'
+alias neologd='mecab -d /opt/mecab/lib/mecab/dic/mecab-ipadic-neologd'
 
 ### path ###
 export PYTHONPATH=/home/takamichi/python/library/

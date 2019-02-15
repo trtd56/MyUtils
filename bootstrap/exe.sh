@@ -60,6 +60,12 @@ cd ./mecab-ipadic-2.7.0-20070801 && ./configure --with-charset=utf8 --with-dicdi
 sudo make install && cd ~/.mecab
 echo '/opt/mecab/lib' | sudo tee -a /etc/ld.so.conf
 sudo ldconfig
+
+# nelodg
+git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
+cd mecab-ipadic-neologd
+./bin/install-mecab-ipadic-neologd -n
+
 cd ~/.mecab && rm -f mecab-0.996.tar.gz mecab-ipadic-2.7.0-20070801.tar.gz
 
 # for NLP tool for python
