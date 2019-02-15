@@ -1,8 +1,15 @@
 import os
 import sys
+from itertools import chain
 from logging import StreamHandler, DEBUG, Formatter, FileHandler, getLogger
 
-LOG_STR = '%(asctime)s %(name)s %(lineno)d [%(levelname)s][%(funcName)s] %(message)s '
+LOG_STR = "".join([
+    "%(asctime)s ",
+    "%(name)s ",
+    "%(lineno)d ",
+    "[%(levelname)s][%(funcName)s] ",
+    "%(message)s "
+])
 
 
 def get_logger(outdir):
@@ -24,3 +31,11 @@ def get_logger(outdir):
     logger.addHandler(handler)
 
     return logger
+
+
+def flatten(l):
+    return list(chain.from_iterable(l))
+
+
+def flip_kv(d):
+    return {v: k for k, v in d.items()}
