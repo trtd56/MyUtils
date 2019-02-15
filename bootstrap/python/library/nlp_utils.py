@@ -29,13 +29,9 @@ def get_pos(text):
     return pos
 
 
-def replace_regex(pattern, org, new):
-    return re.sub(pattern, org, new)
-
-
 def norm_url(text, url_tag="URL"):
-    url_patern = r"https?://[\w/:%#\$&\?\(\)~\.=\+\-…]+"
-    return replace_regex(url_patern, text, url_tag)
+    url_pattern = r"https?://[\w/:%#\$&\?\(\)~\.=\+\-…]+"
+    return re.sub(url_pattern, url_tag, text)
 
 
 def norm_numeric(text):
@@ -51,10 +47,30 @@ def zen_to_han(text):
     return mojimoji.zen_to_han(text)
 
 
-def ngram(lst, n):
-    return [i for i in ngrams(lst, n)]
+def nchars(s, n):
+    assert n > 0
+    reg = re.compile("(.)\\1{%d,}" % (n - 1))
+    while True:
+        m = reg.search(s)
+        if not m:
+            break
+        yield m.group(0)
+        s = s[m.end():]
 
 
-def is_continuous_elem(lst, count):
-    e_lst = ngram(lst, count)
+def is_continuous_char(text, count):
+    c_lst = list(nchars(text, count))
+    return len(c_lst) > 0
+
+
+def is_continuous_word(text, count, org_form=False):
+    w_lst = sep_by_mecab(text, org_form)
+    e_lst = list(ngrams(w_lst, count))
     return sum([len(set(e)) == 1 for e in e_lst]) != 0
+
+
+def norm_continuous_char(text, count=3):
+    c_lst = list(nchars(text, count))
+    for c in c_lst:
+        text = text.replace(c, c[0])
+    return text
