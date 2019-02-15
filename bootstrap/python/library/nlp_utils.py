@@ -6,6 +6,8 @@ from nltk import ngrams
 
 tagger = MeCab.Tagger("-Ochasen")
 emoji_lst = emoji.UNICODE_EMOJI
+DEF_URL_TAG = "URL"
+DEF_EMOJI_TAG = "EMOJI"
 
 
 def analysis_mecab(text):
@@ -29,7 +31,7 @@ def get_pos(text):
     return pos
 
 
-def norm_url(text, url_tag="URL"):
+def norm_url(text, url_tag=DEF_URL_TAG):
     url_pattern = r"https?://[\w/:%#\$&\?\(\)~\.=\+\-…]+"
     return re.sub(url_pattern, url_tag, text)
 
@@ -39,12 +41,8 @@ def norm_numeric(text):
     return "".join(["0" if w.isnumeric() else w for w in w_lst])
 
 
-def norm_emoji(text, emoji_tag="EMOJI"):
+def norm_emoji(text, emoji_tag=DEF_EMOJI_TAG):
     return "".join([emoji_tag if t in emoji_lst else t for t in text])
-
-
-def zen_to_han(text):
-    return mojimoji.zen_to_han(text)
 
 
 def nchars(s, n):
@@ -73,4 +71,15 @@ def norm_continuous_char(text, count=3):
     c_lst = list(nchars(text, count))
     for c in c_lst:
         text = text.replace(c, c[0])
+    return text
+
+
+def normalize_text(text):
+    text = str(text)
+    text = text.lower()  # all lower
+    text = mojimoji.zen_to_han(text)  # all hankaku
+    text = norm_numeric(text)
+    text = norm_emoji(text)
+    text = norm_url(text)
+    text = norm_continuous_char(text)
     return text
