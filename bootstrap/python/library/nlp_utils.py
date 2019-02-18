@@ -4,30 +4,43 @@ import mojimoji
 import re
 from nltk import ngrams
 
-tagger = MeCab.Tagger("-Ochasen")
+default_t = MeCab.Tagger("-Ochasen")
+neologd_t = MeCab.Tagger(" -d /opt/mecab/lib/mecab/dic/mecab-ipadic-neologd")
 emoji_lst = emoji.UNICODE_EMOJI
 DEF_URL_TAG = "URL"
 DEF_EMOJI_TAG = "EMOJI"
 
 
-def analysis_mecab(text):
-    lst = [
-            t.split("\t")
-            for t in tagger.parse(text).split('\n')
-            if t not in ["", "EOS"]
-    ]
+def analysis_mecab(text, is_neologd=False):
+
+    def _sep(text):
+        tagger = neologd_t if is_neologd else default_t
+        return [t for t in tagger.parse(text).split('\n')
+                if t not in ["", "EOS"]]
+
+    lst = [t.split("\t") for t in _sep(text)]
+
+    if is_neologd:
+        lst = [[s[0]] + s[1].split(",") for s in lst]
+
     return lst
 
 
-def sep_by_mecab(text, org_form=False):
-    idx = 2 if org_form else 0
-    wakati = analysis_mecab(text)
+def sep_by_mecab(text, is_neologd=False, org_form=False):
+    if is_neologd:
+        idx = 7 if org_form else 0
+    else:
+        idx = 2 if org_form else 0
+    wakati = analysis_mecab(text, is_neologd)
     return [w[idx] for w in wakati]
 
 
-def get_pos(text):
-    wakati = analysis_mecab(text)
-    pos = [w[3].split("-")[0] for w in wakati]
+def get_pos(text, is_neologd=False):
+    wakati = analysis_mecab(text, is_neologd=is_neologd)
+    if is_neologd:
+        pos = [w[1] for w in wakati]
+    else:
+        pos = [w[3].split("-")[0] for w in wakati]
     return pos
 
 
