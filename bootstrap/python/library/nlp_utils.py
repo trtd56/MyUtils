@@ -3,7 +3,11 @@ import emoji
 import mojimoji
 import re
 from nltk import ngrams
+import spacy
+from spacy import displacy
 
+
+nlp = spacy.load('ja_ginza')
 default_t = MeCab.Tagger("-Ochasen")
 neologd_t = MeCab.Tagger(" -d /opt/mecab/lib/mecab/dic/mecab-ipadic-neologd")
 emoji_lst = emoji.UNICODE_EMOJI
@@ -96,3 +100,56 @@ def normalize_text(text):
     text = norm_url(text)
     text = norm_continuous_char(text)
     return text
+
+
+def aster2mask(text):
+    return re.sub("(\*){2,}", " [MASK]", text)
+
+
+def norm_ner(text, ners=["DATE", "MONEY"]):
+    doc = nlp(text)
+    for ent in doc.ents:
+        if ent.label_ in ners:
+            text = text.replace(ent.text, f"[{ent.label_}]")
+
+
+def get_tokens(text):
+    doc = nlp(text)
+    try:
+        sent = [sent for sent in doc.sents][0]
+    except IndexError:
+        return None, None
+    root_head_i = [token.head.i for token in sent if token.dep_ == "ROOT"][0]
+    return sent, root_head_i
+
+
+def is_want_text(sent, root_head_i):
+    return  len([token.lemma_ for token in sent if token.head.i == root_head_i and token.lemma_ in ["たい"]]) > 0
+
+
+def is_not_text(sent, root_head_i):
+    return  len([token.lemma_ for token in sent if token.head.i == root_head_i and token.lemma_ in ["ない", "ず"]]) > 0
+
+
+def is_q_text(sent, root_head_i):
+    return  len([token.lemma_ for token in sent if token.head.i == root_head_i and token.lemma_ in ["か"]]) > 0
+
+
+def is_use_text(text):
+    sent, root_head_i = get_tokens(text)
+    if sent is None:
+        return False
+    is_q = is_q_text(sent, root_head_i)
+    is_not = is_not_text(sent, root_head_i)
+    is_want = is_want_text(sent, root_head_i)
+    return is_q or is_not or is_want
+
+
+def get_words_info_ginza(text, plot=False):
+    doc = nlp(text)
+    for sent in doc.sents:
+        for token in sent:
+            print(token.i, token.orth_, token.lemma_, token.pos_, token.tag_, token.dep_, token.head.i)
+        print('EOS')
+    if plot:
+        displacy.serve(doc, style="dep")
